@@ -47,29 +47,29 @@
     </div>
   </section>
 
-  <form id="voteForm" style="width:100%;max-width:900px;margin:0 auto;">
-    <div style="display:flex;gap:12px;margin-bottom:10px;">
-      <input name="name" id="name" type="text" placeholder="Seu nome completo" required 
-             style="flex:1;padding:8px 10px;font-size:15px;border:1px solid #ddd;border-radius:6px;">
-      <input name="email" id="email" type="email" placeholder="seu@email.com" required 
-             style="flex:1;padding:8px 10px;font-size:15px;border:1px solid #ddd;border-radius:6px;">
-    </div>
-    <div style="display:flex;gap:12px;margin-bottom:10px;">
-      <input name="phone" id="phone" type="text" placeholder="DDD + número (11999999999)" required 
-             style="flex:1;padding:8px 10px;font-size:15px;border:1px solid #ddd;border-radius:6px;">
-      <input name="instagram" id="instagram" type="text" placeholder="@seuusuario (opcional)" 
-             style="flex:1;padding:8px 10px;font-size:15px;border:1px solid #ddd;border-radius:6px;">
-    </div>
-    <div style="margin-bottom:10px;font-size:14px;color:#555;">
-      <label><input id="agree" type="checkbox" required> Li e aceito os <a href="#" target="_blank">termos da promoção</a></label>
-    </div>
-    <div style="text-align:center;margin-top:12px;">
-      <button type="submit" style="background:#0f62fe;color:#fff;border:none;padding:12px 20px;border-radius:8px;cursor:pointer;">
-        Enviar participação
-      </button>
-      <div id="msg" style="font-size:13px;color:#666;margin-top:8px;"></div>
-    </div>
-  </form>
+  <form id="voteForm" style="width:100%;max-width:900px;margin:0 auto;display:block;">
+  <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:10px;">
+    <input name="name" id="name" type="text" placeholder="Seu nome completo" required 
+           style="flex:1 1 100%;min-width:260px;padding:8px 10px;font-size:15px;border:1px solid #ddd;border-radius:6px;">
+    <input name="email" id="email" type="email" placeholder="seu@email.com" required 
+           style="flex:1 1 100%;min-width:260px;padding:8px 10px;font-size:15px;border:1px solid #ddd;border-radius:6px;">
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:10px;">
+    <input name="phone" id="phone" type="text" placeholder="DDD + número (11999999999)" required 
+           style="flex:1 1 100%;min-width:260px;padding:8px 10px;font-size:15px;border:1px solid #ddd;border-radius:6px;">
+    <input name="instagram" id="instagram" type="text" placeholder="@seuusuario (opcional)" 
+           style="flex:1 1 100%;min-width:260px;padding:8px 10px;font-size:15px;border:1px solid #ddd;border-radius:6px;">
+  </div>
+  <div style="margin-bottom:10px;font-size:14px;color:#555;">
+    <label><input id="agree" type="checkbox" required> Li e aceito os <a href="#" target="_blank">termos da promoção</a></label>
+  </div>
+  <div style="text-align:center;margin-top:12px;">
+    <button type="submit" style="background:#0f62fe;color:#fff;border:none;padding:12px 20px;border-radius:8px;cursor:pointer;">
+      Enviar participação
+    </button>
+    <div id="msg" style="font-size:13px;color:#666;margin-top:8px;"></div>
+  </div>
+</form>
 </div>
 
 <script>
@@ -117,4 +117,5 @@ document.getElementById('voteForm').addEventListener('submit', async (ev)=>{
 });
 </script>
 </body>
+
 </html>
