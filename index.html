@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="Vote na nova logo do Auto Posto Fórmula 1 e concorra a 100L de combustível + R$200 na loja.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>body{font-family:'Inter',system-ui,}</style>
+  <title>Auto Posto Fórmula 1 — Escolha da Logo</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;line-height:1.4;margin:0;color:#111}
+    .wrap{max-width:900px;margin:28px auto;padding:20px}
+    header{text-align:center;margin-bottom:18px}
+    .logos{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:18px}
+    .logo-tile{border:1px solid #ddd;padding:8px;border-radius:8px;cursor:pointer;text-align:center;transition:box-shadow .15s}
+    .logo-tile.selected{box-shadow:0 4px 12px rgba(0,0,0,.08);border-color:#0f62fe}
+    img.logo{max-width:100%;height:100px;object-fit:contain}
+    form .row{display:flex;gap:12px;margin-bottom:10px}
+    input[type=text],input[type=email]{flex:1;padding:10px;border:1px solid #ddd;border-radius:6px}
+    label.small{font-size:13px;color:#555}
+    .actions{text-align:center;margin-top:12px}
+    button{background:#0f62fe;color:#fff;border:none;padding:12px 20px;border-radius:8px;cursor:pointer}
+    .note{font-size:13px;color:#666;margin-top:8px}
+    
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Auto Posto Fórmula 1</h1>
+    <p>Escolha sua logo preferida e concorra a: <br> <strong>100L de combustível para abastecer seu carro</strong> 
+        + <strong>R$200,00</strong> para você recarregar suas energias em nossa conveniência!</p>
+  </header>
+
+  <section>
+    <h3> Selecione sua logo favorita</h3>
+    <div class="logos" id="logos">
+      <div class="logo-tile" data-id="logo1"><img class="logo" src="images/logo1.png" alt="Logo 1"><div>Logo 1</div></div>
+      <div class="logo-tile" data-id="logo2"><img class="logo" src="images/logo2.png" alt="Logo 2"><div>Logo 2</div></div>
+      <div class="logo-tile" data-id="logo3"><img class="logo" src="images/logo3.png" alt="Logo 3"><div>Logo 3</div></div>
+      <div class="logo-tile" data-id="logo4"><img class="logo" src="images/logo4.png" alt="Logo 4"><div>Logo 4</div></div>
+      <div class="logo-tile" data-id="logo5"><img class="logo" src="images/logo5.png" alt="Logo 5"><div>Logo 5</div></div>
+      <div class="logo-tile" data-id="logo5"><img class="logo" src="images/logo6.png" alt="Logo 6"><div>Logo 6</div></div>
+      <div class="logo-tile" data-id="logo5"><img class="logo" src="images/logo7.png" alt="Logo 7"><div>Logo 7</div></div>
+    </div>
+    </div>
+  </section>
+
+  <form id="voteForm" style="width:100%;max-width:900px;margin:0 auto;">
+    <div style="display:flex;gap:12px;margin-bottom:10px;">
+      <input name="name" id="name" type="text" placeholder="Seu nome completo" required 
+             style="flex:1;padding:8px 10px;font-size:15px;border:1px solid #ddd;border-radius:6px;">
+      <input name="email" id="email" type="email" placeholder="seu@email.com" required 
+             style="flex:1;padding:8px 10px;font-size:15px;border:1px solid #ddd;border-radius:6px;">
+    </div>
+    <div style="display:flex;gap:12px;margin-bottom:10px;">
+      <input name="phone" id="phone" type="text" placeholder="DDD + número (11999999999)" required 
+             style="flex:1;padding:8px 10px;font-size:15px;border:1px solid #ddd;border-radius:6px;">
+      <input name="instagram" id="instagram" type="text" placeholder="@seuusuario (opcional)" 
+             style="flex:1;padding:8px 10px;font-size:15px;border:1px solid #ddd;border-radius:6px;">
+    </div>
+    <div style="margin-bottom:10px;font-size:14px;color:#555;">
+      <label><input id="agree" type="checkbox" required> Li e aceito os <a href="#" target="_blank">termos da promoção</a></label>
+    </div>
+    <div style="text-align:center;margin-top:12px;">
+      <button type="submit" style="background:#0f62fe;color:#fff;border:none;padding:12px 20px;border-radius:8px;cursor:pointer;">
+        Enviar participação
+      </button>
+      <div id="msg" style="font-size:13px;color:#666;margin-top:8px;"></div>
+    </div>
+  </form>
+</div>
+
+<script>
+const WEBHOOK_URL = 'https://n8n.srv1005513.hstgr.cloud/webhook/logo-vote'; // <--- substitua
+
+// UI lógica simples para selecionar logo
+const tiles = document.querySelectorAll('.logo-tile');
+let selectedLogo = null;
+tiles.forEach(t => {
+  t.addEventListener('click', ()=> {
+    tiles.forEach(x=>x.classList.remove('selected'));
+    t.classList.add('selected');
+    selectedLogo = t.dataset.id;
+  });
+});
+
+document.getElementById('voteForm').addEventListener('submit', async (ev)=>{
+  ev.preventDefault();
+  document.getElementById('msg').textContent = '';
+  if(!selectedLogo){ document.getElementById('msg').textContent='Selecione uma logo.'; return; }
+  const payload = {
+    name: document.getElementById('name').value.trim(),
+    email: document.getElementById('email').value.trim().toLowerCase(),
+    phone: document.getElementById('phone').value.replace(/\D/g,''),
+    instagram: document.getElementById('instagram').value.replace(/^@/,'').trim(),
+    chosen_logo: selectedLogo,
+    campaign: 'Auto Posto Fórmula 1 - Escolha da Logo',
+    submitted_at: new Date().toISOString(),
+    user_agent: navigator.userAgent,
+    referrer: document.referrer || null
+  };
+
+  try {
+    const res = await fetch('https://n8n.srv1005513.hstgr.cloud/webhook/logo-vote', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    });
+    if(!res.ok) throw new Error('Falha no envio');
+    document.getElementById('msg').textContent = 'Obrigado! Participação registrada.';
+  } catch(err){
+    console.error(err);
+    document.getElementById('msg').textContent = 'Erro ao enviar. Tente novamente mais tarde.';
+  }
+});
+</script>
+</body>
+</html>
